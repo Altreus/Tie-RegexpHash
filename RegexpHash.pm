@@ -1,19 +1,17 @@
 package Tie::RegexpHash;
 
-require 5.005_62;
+require 5.005;
 use strict;
 
-use warnings::register qw(Tie::RegexpHash);
+use vars qw( $VERSION @ISA );
 
-require Exporter;
+@ISA = qw( );
 
-our @ISA = qw( Exporter );
+# our %EXPORT_TAGS = ( 'all' => [ qw( ) ] );
+# our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
+# our @EXPORT = qw();
 
-our %EXPORT_TAGS = ( 'all' => [ qw( ) ] );
-our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
-our @EXPORT = qw();
-
-our $VERSION = '0.10';
+$VERSION = '0.12';
 
 use Carp;
 
@@ -55,8 +53,7 @@ sub _find
     if (ref($key) eq "Regexp")
       {
 	my $i = 0;
-	while  ( ($key ne $self->{KEYS}->[ $i ]) and
-		 ($i < $self->{COUNT}) ) {
+	while  (($i < $self->{COUNT}) and ($key ne $self->{KEYS}->[ $i ])) {
 	    $i++;
 	  }
 
@@ -73,10 +70,9 @@ sub _find
     else
       {
 	my $i = 0;
-	while  ( ($key !~ m/$self->{KEYS}->[ $i ]/) and
-		 ($i < $self->{COUNT}) ) {
-	    $i++;
-	  }
+	while  (($i < $self->{COUNT}) and ($key !~ m/$self->{KEYS}->[ $i ]/)) {
+	  $i++;
+	}
 
 	if ($i == $self->{COUNT})
 	  {
@@ -103,11 +99,8 @@ sub add
       {
 	if ($key ne $self->{KEYS}->[ $index ])
 	  {
-	    if (warnings::enabled)
-	      {
-		warnings::warn "'`$key\' is not the same as '`" .
-		  $self->{KEYS}->[$index] . "\'";
-	      }
+		carp "'`$key\' is not the same as '`",
+		  $self->{KEYS}->[$index], "\'";
 	  }
 	$self->{VALUES}->[ $index ] = $value;
       }
@@ -175,11 +168,8 @@ sub remove
 
 	if ($key ne $self->{KEYS}->[ $index ])
 	  {
-	    if (warnings::enabled)
-	      {
-		warnings::warn "'`$key\' is not the same as '`" .
-		  $self->{KEYS}->[$index] . "\'";
-	      }
+		carp "'`$key\' is not the same as '`",
+		  $self->{KEYS}->[$index], "\'";
 	  }
 
 	my $value = $self->{VALUES}->[ $index ];
@@ -190,10 +180,7 @@ sub remove
       }
     else
       {
-	if (warnings::enabled)
-	  {
-	    warnings::warn "Cannot delete a nonexistent key: \`$key\'";
-	  }
+	   	carp "Cannot delete a nonexistent key: \`$key\'";
 	return;
       }
 
@@ -282,8 +269,9 @@ Tie::RegexpHash - Use regular expressions as hash keys
 
 =head1 REQUIREMENTS
 
-C<Tie::RegexpHash> is written for and tested on Perl 5.6.0. A future
-version might be tweaked to run on 5.005.
+L<Tie::RegexpHash> is written for and tested on Perl 5.6.0, but should
+run with Perl 5.005. (Because it uses Regexp variables it cannot run on
+earlier versions of Perl.)
 
 It uses only standard modules.
 
@@ -293,9 +281,9 @@ Installation is pretty standard:
 
   perl Makefile.PL
   make
+  make test
   make install
 
-No test suite is available in this version.
 
 =head1 SYNOPSIS
 
@@ -339,10 +327,10 @@ Creates a new "RegexpHash" (Regular Expression Hash) object.
 
   $obj->add( $key, $value );
 
-Adds a new key/value pair to the hash. C<$key> can be a Regexp or a string
+Adds a new key/value pair to the hash. I<$key> can be a Regexp or a string
 (which is compiled into a Regexp).
 
-If C<$key> is already defined, the value will be changed. If C<$key> matches
+If I<$key> is already defined, the value will be changed. If C<$key> matches
 an existing key (but is not the same), a warning will be shown if warnings
 are enabled.
 
@@ -350,7 +338,7 @@ are enabled.
 
   $value = $obj->match( $quasikey );
 
-Returns the value associated with C<$quasikey>. (C<$quasikey> can be a string
+Returns the value associated with I<$quasikey>. (I<$quasikey> can be a string
 which matches an existing Regexp or an actual Regexp.)  Returns 'undef' if
 there is no match.
 
@@ -366,9 +354,8 @@ Returns a true value if there exists a matching key.
 
   $value = $obj->remove( $quasikey );
 
-Deletes the key associated with C<$quasikey>.  If C<$quasikey> matches
-an existing key (but is not the same), a warning will be shown if warnings
-are enabled.
+Deletes the key associated with I<$quasikey>.  If I<$quasikey> matches
+an existing key (but is not the same), a warning will be shown.
 
 Returns the value associated with the key.
 
@@ -382,9 +369,20 @@ Removes all key/value pairs.
 
 Robert Rothenberg <rrwo@cpan.org>
 
+=head2 Acknowledgements
+
+Simon Hanmer <sch@scubaplus.co.uk> & Bart Vetters <robartes@nirya.eb>
+for pointing out a bug in the logic of the _find() routine in v0.10
+
+=head1 SEE ALSO
+
+L<Tie::Hash::Regex> is a module with a complimentary function. Rather than
+a hash with Regexps as keys that match a fetch, this module has standard
+keys but uses Regexps for fetches.
+
 =head1 LICENSE
 
-Copyright (c) 2001 Robert Rothenberg. All rights reserved.
+Copyright (c) 2001-2002 Robert Rothenberg. All rights reserved.
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 

@@ -1,6 +1,14 @@
 Revision history for Perl extension Tie::RegexpHash.
 
+0.12  22 Nov 2002
+	- fixed bug with logic in _find() routine
+
+0.11  27 Jan 2001
+	- added SEE ALSO in POD about Tie::Hash::Regex
+	- should run on Perl 5.005
+	- no longer an Exporter
+	- added stub for test suite
+
 0.10  22 Jan 2001
-	- original version; created by h2xs 1.20 with options
-		-X -v 0.10 -n Tie::RegexpHash
+	- original version
 

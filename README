@@ -2,8 +2,9 @@ NAME
     Tie::RegexpHash - Use regular expressions as hash keys
 
 REQUIREMENTS
-    `Tie::RegexpHash' is written for and tested on Perl 5.6.0. A future
-    version might be tweaked to run on 5.005.
+    "Tie::RegexpHash" is written for and tested on Perl 5.6.0, but should
+    run with Perl 5.005. (Because it uses Regexp variables it cannot run on
+    earlier versions of Perl.)
 
     It uses only standard modules.
 
@@ -13,9 +14,21 @@ REQUIREMENTS
 
       perl Makefile.PL
       make
+      make test
       make install
 
-    No test suite is available in this version.
+HISTORY
+
+Changes since v0.10
+
+  0.12  22 Nov 2002
+	- fixed bug with logic in _find() routine
+
+  0.11  27 Jan 2001
+	- added SEE ALSO in POD about Tie::Hash::Regex
+	- should run on Perl 5.005
+	- no longer an Exporter
+	- added stub for test suite
 
 SYNOPSIS
       use Tie::RegexpHash;
@@ -43,15 +56,25 @@ DESCRIPTION
     values can be associated with anything that matches the key.
 
     Hashes can be operated on using the standard tied hash interface in
-    Perl, or using an object-orineted interface described.
+    Perl, or using an object-orineted interface described below.
 
-    More detailed documentation is described in the module's POD.
+    A more detailed description can be found in the POD
 
 AUTHOR
     Robert Rothenberg <rrwo@cpan.org>
 
+  Acknowledgements
+
+    Simon Hanmer <sch@scubaplus.co.uk> & Bart Vetters <robartes@nirya.eb>
+    for pointing out a bug in the logic of the _find() routine in v0.10.
+
+SEE ALSO
+    "Tie::Hash::Regex" is a module with a complimentary function. Rather
+    than a hash with Regexps as keys that match a fetch, this module has
+    standard keys but uses Regexps for fetches.
+
 LICENSE
-    Copyright (c) 2001 Robert Rothenberg. All rights reserved. This program
-    is free software; you can redistribute it and/or modify it under the
-    same terms as Perl itself.
+    Copyright (c) 2001-2002 Robert Rothenberg. All rights reserved. This
+    program is free software; you can redistribute it and/or modify it under
+    the same terms as Perl itself.
 

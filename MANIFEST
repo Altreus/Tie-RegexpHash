@@ -3,3 +3,4 @@ Makefile.PL
 MANIFEST
 README
 RegexpHash.pm
+t/01-RegexpHash.t
