@@ -1,0 +1,17 @@
+--- #YAML:1.0
+name: Tie-RegexpHash
+version: 0.13
+author:
+  - Robert Rothenberg <rrwo at cpan.org>
+abstract: Use regular expressions as hash keys
+license: perl
+requires:
+  Carp: 0
+  perl: 5.005
+build_requires:
+  Test: 0
+provides:
+  Tie::RegexpHash:
+    file: lib/Tie/RegexpHash.pm
+    version: 0.13
+generated_by: Module::Build version 0.2607

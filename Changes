@@ -1,5 +1,11 @@
 Revision history for Perl extension Tie::RegexpHash.
 
+0.13   3 Jan 2005
+	- added Build.PL, META.yml etc. to distro
+	- fixed typos in warning message
+	- reorganized/updated POD
+	- added more modules to SEE ALSO section
+
 0.12  22 Nov 2002
 	- fixed bug with logic in _find() routine
 

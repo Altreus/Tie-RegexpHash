@@ -1,6 +1,9 @@
+Build.PL
 Changes
 Makefile.PL
 MANIFEST
+META.yml
 README
-RegexpHash.pm
+lib/Tie/RegexpHash.pm
 t/01-RegexpHash.t
+SIGNATURE    Added here by Module::Build
