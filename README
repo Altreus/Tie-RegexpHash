@@ -1,0 +1,57 @@
+NAME
+    Tie::RegexpHash - Use regular expressions as hash keys
+
+REQUIREMENTS
+    `Tie::RegexpHash' is written for and tested on Perl 5.6.0. A future
+    version might be tweaked to run on 5.005.
+
+    It uses only standard modules.
+
+  Installation
+
+    Installation is pretty standard:
+
+      perl Makefile.PL
+      make
+      make install
+
+    No test suite is available in this version.
+
+SYNOPSIS
+      use Tie::RegexpHash;
+
+      my %hash;
+
+      tie %hash, 'Tie::RegexpHash';
+
+      $hash{ qr/^5(\s+|-)?gal(\.|lons?)?/i } = '5-GAL';
+
+      $hash{'5 gal'};     # returns "5-GAL"
+      $hash{'5GAL'};      # returns "5-GAL"
+      $hash{'5  gallon'}; # also returns "5-GAL"
+
+      my $rehash = Tie::RegexpHash->new();
+
+      $rehash->add( qr/\d+(\.\d+)?/, "contains a number" );
+      $rehash->add( qr/s$/,          "ends with an \`s\'" );
+
+      $rehash->match( "foo 123" );  # returns "contains a number"
+      $rehash->match( "examples" ); # returns "ends with an `s'"
+
+DESCRIPTION
+    This module allows one to use regular expressions for hash keys, so that
+    values can be associated with anything that matches the key.
+
+    Hashes can be operated on using the standard tied hash interface in
+    Perl, or using an object-orineted interface described.
+
+    More detailed documentation is described in the module's POD.
+
+AUTHOR
+    Robert Rothenberg <rrwo@cpan.org>
+
+LICENSE
+    Copyright (c) 2001 Robert Rothenberg. All rights reserved. This program
+    is free software; you can redistribute it and/or modify it under the
+    same terms as Perl itself.
+

@@ -1,0 +1,6 @@
+Revision history for Perl extension Tie::RegexpHash.
+
+0.10  22 Jan 2001
+	- original version; created by h2xs 1.20 with options
+		-X -v 0.10 -n Tie::RegexpHash
+
