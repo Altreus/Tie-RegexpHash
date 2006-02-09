@@ -7,12 +7,15 @@ my $build = Module::Build->new
      requires => {
        'perl'                       => '5.005',
        'Carp'                       => 0,
+       'Storable'                   => 0,
      },
      recommends => {
+       'Pod::Readme'      => 0.02,
      },
      build_requires => {
-       'Test'                       => 0,
+       'Test::More'                 => 0,
      },
+     create_readme      => ($Module::Build::VERSION >= 0.2702),
      create_makefile_pl => 'traditional',
      dist_author        => 'Robert Rothenberg <rrwo at cpan.org>',
      sign => 1,

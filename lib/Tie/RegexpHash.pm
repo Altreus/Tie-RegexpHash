@@ -11,9 +11,11 @@ use vars qw( $VERSION @ISA );
 # our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 # our @EXPORT = qw();
 
-$VERSION = '0.13';
+$VERSION = '0.14_01';
+$VERSION = eval $VERSION;
 
 use Carp;
+use Storable qw( thaw freeze );
 
 sub new
 
@@ -108,15 +110,7 @@ sub add
       {
 	$index = $self->{COUNT}++;
 
-	my $Regexp;
-	if (ref($key) eq "Regexp")
-	  {
-	    $Regexp = $key;
-	  }
-	else
-	  {
-	    $Regexp = qr/$key/;
-	  }
+	$key   = (ref($key) eq "Regexp") ? $key : qr/$key/;
 
 	$self->{KEYS}->[ $index ]   = $key;
 	$self->{VALUES}->[ $index ] = $value;
@@ -259,6 +253,50 @@ sub NEXTKEY
 
   }
 
+sub STORABLE_freeze
+
+# serialize object
+
+  {
+    my ($self, $cloning) = @_;
+
+    my @keystrings;
+    {
+      local *_;
+      @keystrings = map { join(':',
+          ($_ =~ /^\(\?([ismx]{0,4})-.*:(.*)\)$/)); } @{$self->{KEYS}};
+    }
+
+    my $sref = {
+      KEYSTRINGS => \@keystrings,
+      VALUES     => $self->{VALUES},
+      COUNT      => $self->{COUNT},
+    };
+
+    return Storable::freeze($sref);
+  }
+
+sub STORABLE_thaw
+
+# deserialize
+
+  {
+    my($self, $cloning, $serialized) = @_;
+
+    my $sref = Storable::thaw($serialized);
+    $self->{KEYS}   = [ ];
+    $self->{VALUES} = $sref->{VALUES};
+    $self->{COUNT}  = $sref->{COUNT};
+
+    {
+      local *_;
+      @{$self->{KEYS}} = map {
+           my ($flags,$pat) = ($_ =~ /^([ismx]{0,4}):(.*)$/);
+           $pat = ($flags) ? "(?$flags:$pat)" : $pat;
+           qr/$pat/;
+      } @{$sref->{KEYSTRINGS}};
+    }
+  }
 
 1;
 __END__
@@ -266,6 +304,8 @@ __END__
 =head1 NAME
 
 Tie::RegexpHash - Use regular expressions as hash keys
+
+=begin readme
 
 =head1 REQUIREMENTS
 
@@ -277,13 +317,24 @@ It uses only standard modules.
 
 =head2 Installation
 
-Installation is pretty standard:
+Installation can be done using the traditional Makefile.PL or the newer
+Build.PL methods.
+
+Using Makefile.PL:
 
   perl Makefile.PL
-  make
   make test
   make install
 
+(On Windows platforms you should use C<nmake> instead.)
+
+Using Build.PL (if you have Module::Build installed):
+
+  perl Build.PL
+  perl Build test
+  perl Build install
+
+=end readme
 
 =head1 SYNOPSIS
 
@@ -314,6 +365,8 @@ values can be associated with anything that matches the key.
 
 Hashes can be operated on using the standard tied hash interface in Perl,
 or using an object-orineted interface described below.
+
+=for readme stop
 
 =head2 Methods
 
@@ -369,18 +422,39 @@ Removes all key/value pairs.
 
 =back
 
+=for readme continue
+
+=begin readme
+
+=head1 REVISION HISTORY
+
+A brief list of changes since the previous release:
+
+=for readme include file="Changes" start="0.14" stop="0.13" type="text"
+
+For a detailed history see the F<Changes> file included in this distribution.
+
+=end readme
+
 =head1 AUTHOR
 
 Robert Rothenberg <rrwo at cpan.org>
 
+=for readme stop
+
 =head2 Acknowledgements
+
+Russell Harrison <rc.harrison at gmail.com> for patches adding support
+for serialization.
 
 Simon Hanmer <sch at scubaplus.co.uk> & Bart Vetters <robartes at nirya.eb>
 for pointing out a bug in the logic of the _find() routine in v0.10
 
+=for readme continue
+
 =head1 LICENSE
 
-Copyright (c) 2001-2002, 2005 Robert Rothenberg. All rights reserved.
+Copyright (c) 2001-2002, 2005-2006 Robert Rothenberg. All rights reserved.
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 

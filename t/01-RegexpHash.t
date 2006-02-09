@@ -1,9 +1,8 @@
-use Test;
+#!/usr/bin/perl
 
-BEGIN { plan tests => 6, todo => [ ] }
+use Test::More tests => 6;
 
-use Tie::RegexpHash 0.12;
-ok(1);
+use_ok("Tie::RegexpHash", 0.14);
 
 # Rudimentary test suite of the examples given in the
 # synopsis. Someday it will be oncorporated with POD::Tests.  Someday

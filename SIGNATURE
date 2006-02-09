@@ -1,5 +1,5 @@
 This file contains message digests of all files listed in MANIFEST,
-signed via the Module::Signature module, version 0.44.
+signed via the Module::Signature module, version 0.50.
 
 To verify the content in this distribution, first make sure you have
 Module::Signature installed, then type:
@@ -14,18 +14,25 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 5188244fb0cc6ab49216d6ad4333786e5d1aabee Build.PL
-SHA1 b813d005d10fefe5b3f01e34c810fa065be247d8 Changes
-SHA1 b1f42cbcde6bcc4284604ccfe76b355d67ba0bc6 MANIFEST
-SHA1 86bea53a6d6c2b74ad26466b0114cca368bc0926 META.yml
-SHA1 f154161aace0272e71a66bac3302219ab151f7eb Makefile.PL
-SHA1 d32bfd10a5d408ae49e993c2ef56fe7b8da5fc38 README
-SHA1 a8183bfc7fbbb42cb1592d63c279afde19b3be27 lib/Tie/RegexpHash.pm
-SHA1 05d50704e2dd327a09fb605d65f6376d80ace1cf t/01-RegexpHash.t
+SHA1 ca0f07fd6daf54ffa256504e612a1bfef19f4b11 Build.PL
+SHA1 5c35fd372de6e15bb4994934899c3c8e39389fff Changes
+SHA1 15b4714014dd549dfbe009a0372a9798e756ba13 MANIFEST
+SHA1 e90b6e40ce6a70281d3e8934fa3f5df6fb1a0f1f META.yml
+SHA1 d56a99f789ff805efca2111470ff2dc11bf2c378 Makefile.PL
+SHA1 7ee43c78ee0070d1aef7ccd4b5f43fabeece977b README
+SHA1 2749372fb2206f46bc30702163477db585587e06 lib/Tie/RegexpHash.pm
+SHA1 98bc693f8980ea388c212d7f15ea8613f70dc991 t/01-RegexpHash.t
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.2.5 (MingW32)
+Version: GnuPG v1.4.1 (GNU/Linux)
 
-iD8DBQFB2ZoGV485gMKcmRARAt7fAJwJeivAV165DQM4Aj6iDmbZ4XXuPwCfUNdn
-kOiePe0iNcEgDnz6P7PR4ww=
-=h6Ts
+iQGZAwUBQ+tsn8Wi0Y+7ctnFAQKfxwwfQeA7xCXGiGGKLNv/PaAXutbWRu0OtgTo
+q3ltnV2mGH3sb8qe8ddeTlchxkhdGijnUoamfV34FDPpWp9M8AcDKhbKm1a9Sjcv
+ay8pk/QyJJmGCwn35vGuoTN7P0xTll/0gp//PV5pHF9kxW4iW8a6sB7eXRUg06jP
+GyNpgIZ18K17yyfZpq5O0bx0grS0pON39s8aGO4lwlW7biPCUmPOfDwRkZryTTVb
+xu7L8DYSNqKSFqjdMzbw50+mNSdwVCSVelkvA4VNtDsf33NMvqEJ6nDkOSxi7Nb8
+z6NUymJCvKlZKxgmhoTj3v5oaayXY0gy9+d11fzh3Jhnrvbsa8HeWcXEXs4sr5wW
++2V7a4M4aYGisugPZqLIOguEJP7CEdDeFTQrAxVROOGk/wgcAv+xR9RzPsjstzmL
+tl8Tsg0t8/KgTG23Jk2aKnDHRiEop+02t8KrATqN4AdT1jk7LJ5VkHoXi2DgC6vw
+tosW5EIKhpX0iI0QHmI7J1ssE8/ov4iZHdTuvg==
+=TZuE
 -----END PGP SIGNATURE-----

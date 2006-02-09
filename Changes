@@ -1,5 +1,11 @@
 Revision history for Perl extension Tie::RegexpHash.
 
+0.14_01 9 Feb 2006
+	- updated test suite to use Test::More
+	- added serialization hooks with Storable
+	  (patch from Russell Harrison)
+	- README built with Pod::Readme
+
 0.13   3 Jan 2005
 	- added Build.PL, META.yml etc. to distro
 	- fixed typos in warning message

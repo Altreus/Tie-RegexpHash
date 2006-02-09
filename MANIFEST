@@ -7,3 +7,4 @@ README
 lib/Tie/RegexpHash.pm
 t/01-RegexpHash.t
 SIGNATURE    Added here by Module::Build
+SIGNATURE    Added here by Module::Build
