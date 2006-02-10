@@ -2,15 +2,15 @@
 use ExtUtils::MakeMaker;
 WriteMakefile
 (
-          'PL_FILES' => {},
-          'INSTALLDIRS' => 'site',
           'NAME' => 'Tie::RegexpHash',
-          'EXE_FILES' => [],
           'VERSION_FROM' => 'lib/Tie/RegexpHash.pm',
           'PREREQ_PM' => {
-                           'Test::More' => 0,
-                           'Storable' => 0,
-                           'Carp' => 0
-                         }
+                           'Carp' => '0',
+                           'Storable' => '0',
+                           'Test::More' => '0'
+                         },
+          'INSTALLDIRS' => 'site',
+          'EXE_FILES' => [],
+          'PL_FILES' => {}
         )
 ;

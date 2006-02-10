@@ -11,7 +11,7 @@ use vars qw( $VERSION @ISA );
 # our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 # our @EXPORT = qw();
 
-$VERSION = '0.14_01';
+$VERSION = '0.14_02';
 $VERSION = eval $VERSION;
 
 use Carp;
@@ -264,7 +264,7 @@ sub STORABLE_freeze
     {
       local *_;
       @keystrings = map { join(':',
-          ($_ =~ /^\(\?([ismx]{0,4})-.*:(.*)\)$/)); } @{$self->{KEYS}};
+          ($_ =~ /^\(\?([ismx]{0,4})-[ismx]*:(.*)\)$/)); } @{$self->{KEYS}};
     }
 
     my $sref = {
