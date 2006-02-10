@@ -11,7 +11,7 @@ use vars qw( $VERSION @ISA );
 # our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 # our @EXPORT = qw();
 
-$VERSION = '0.14_02';
+$VERSION = '0.14_03';
 $VERSION = eval $VERSION;
 
 use Carp;
@@ -313,7 +313,9 @@ L<Tie::RegexpHash> is written for and tested on Perl 5.6.0, but should
 run with Perl 5.005. (Because it uses Regexp variables it cannot run on
 earlier versions of Perl.)
 
-It uses only standard modules.
+It uses the following (possibly non-core) modules:
+
+  Storable
 
 =head2 Installation
 

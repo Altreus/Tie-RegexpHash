@@ -6,5 +6,6 @@ META.yml
 README
 lib/Tie/RegexpHash.pm
 t/01-RegexpHash.t
-SIGNATURE    Added here by Module::Build
+t/02-RegexpHash.t
+SIGNATURE
 SIGNATURE    Added here by Module::Build

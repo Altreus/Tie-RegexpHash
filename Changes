@@ -1,5 +1,9 @@
 Revision history for Perl extension Tie::RegexpHash.
 
+0.14_03 10 Feb 2006
+	- noted use of Storable in documentation
+	- fix for MANIFEST
+
 0.14_02 10 Feb 2006
 	- fix for freeze subroutine (from Russell Harrison)
 	- tests for serialization hooks (from Russell Harrison)
