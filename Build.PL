@@ -7,10 +7,10 @@ my $build = Module::Build->new
      requires => {
        'perl'                       => '5.005',
        'Carp'                       => 0,
-       'Storable'                   => 0,
      },
      recommends => {
        'Pod::Readme'      => 0.02,
+       'Storable'	  => 0,
      },
      build_requires => {
        'Test::More'                 => 0,

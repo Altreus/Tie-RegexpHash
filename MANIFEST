@@ -1,11 +1,10 @@
 Build.PL
 Changes
-Makefile.PL
-MANIFEST
-META.yml
-README
 lib/Tie/RegexpHash.pm
+MANIFEST			This list of files
+META.yml
 t/01-RegexpHash.t
 t/02-RegexpHash.t
-SIGNATURE
+Makefile.PL
+README
 SIGNATURE    Added here by Module::Build

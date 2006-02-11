@@ -6,11 +6,11 @@ REQUIREMENTS
     with Perl 5.005. (Because it uses Regexp variables it cannot run on
     earlier versions of Perl.)
 
-    It uses the following (possibly non-core) modules:
-
-      Storable
+    It uses only standard modules. Serialization is supported through
+    Storable, but Storable is not required for normal operation.
 
   Installation
+
     Installation can be done using the traditional Makefile.PL or the newer
     Build.PL methods.
 
@@ -20,7 +20,7 @@ REQUIREMENTS
       make test
       make install
 
-    (On Windows platforms you should use "nmake" instead.)
+    (On Windows platforms you should use `nmake' instead.)
 
     Using Build.PL (if you have Module::Build installed):
 
@@ -54,11 +54,17 @@ DESCRIPTION
     values can be associated with anything that matches the key.
 
     Hashes can be operated on using the standard tied hash interface in
-    Perl, or using an object-orineted interface described below.
+    Perl, or using an object-oriented interface described below.
 
 REVISION HISTORY
     A brief list of changes since the previous release:
 
+    0.15    11 Feb 2006
+            - updated notes on Storable use in documentation
+            - support serialization with Storable, but do not require
+              Storable
+            - skip serialization tests if Storable is not available
+    
     0.14_03 10 Feb 2006
             - noted use of Storable in documentation
             - fix for MANIFEST
@@ -81,8 +87,12 @@ AUTHOR
 
 LICENSE
     Copyright (c) 2001-2002, 2005-2006 Robert Rothenberg. All rights
-    reserved. This program is free software; you can redistribute it and/or
-    modify it under the same terms as Perl itself.
+    reserved.
+
+    Portions Copyright (c) 2006 Russell Harrison. All rights reserved.
+
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
 
 SEE ALSO
     Tie::Hash::Regex is a module with a complimentary function. Rather than

@@ -1,5 +1,5 @@
 This file contains message digests of all files listed in MANIFEST,
-signed via the Module::Signature module, version 0.50.
+signed via the Module::Signature module, version 0.53.
 
 To verify the content in this distribution, first make sure you have
 Module::Signature installed, then type:
@@ -14,26 +14,19 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 ca0f07fd6daf54ffa256504e612a1bfef19f4b11 Build.PL
-SHA1 3a8cf4f4d856f5783a2f635684e39bd1d8161e86 Changes
-SHA1 569619e4debe0a274d7020d9a7f3c0d99e79b63c MANIFEST
-SHA1 cd24a57a72de90f067b6732e94dcfa194c57a7b6 META.yml
-SHA1 648291591c2b85f467d3547d20cf8fa936857dce Makefile.PL
-SHA1 6726667c31b370aa47a2fc9f31d5eb82f89f4ecf README
-SHA1 12a8975f5d8fa7dc3dd054b79f60fac44f0342c6 lib/Tie/RegexpHash.pm
+SHA1 4e6ce1013448517f691a64b9f4a39c10ed076cb9 Build.PL
+SHA1 43670cb3c2dcd20fdcd93cd5327f960219f370c1 Changes
+SHA1 c9f5eddaac570c55a9845749e4037dd640db518a MANIFEST
+SHA1 1d7af13a2c3251e4f7524e4057f90f1b39726cbd META.yml
+SHA1 e5a3b12a03c095b66cc229bbf4974d88115f1ac9 Makefile.PL
+SHA1 5f66d6a8bf0aa5410e8db4bd9de8e38de4126745 README
+SHA1 49675d42468bdbdd8deb9dac913db3104d186b27 lib/Tie/RegexpHash.pm
 SHA1 98bc693f8980ea388c212d7f15ea8613f70dc991 t/01-RegexpHash.t
-SHA1 55414ec06fc1348287274655671c38de8ad0e7e8 t/02-RegexpHash.t
+SHA1 7b36e8c9329a8b23458faf7d0dc80b12e0292326 t/02-RegexpHash.t
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.1 (GNU/Linux)
+Version: GnuPG v1.2.5 (GNU/Linux)
 
-iQGZAwUBQ+0A68Wi0Y+7ctnFAQLXPgweL4jfEvTbXd8mMAVRMFH2hKv4VBJH2EK0
-Hh2U1pWg9yWnTRx3UMUKO7l3+Gz7mYZkTlx9sW3Ap8lJW7vOeJoTdPcOHBbS+bT7
-cb5NZNiWw2QJfpu4JRENYZntPwx7VX9WTdu2JF/0Q/DeuQmMOlYJEF+pig554NU5
-TY1qB7xl6arva3A/btaS0O0cyO9mYX/zeX851WtB1tS35omNFkXO11Zsn6KqPCOa
-YEyUy4Gg6l7lWs4SF+vaQ0ytoYAdkBcXfwJJt1q7q/6d98+H0TvHDSil8v6q5hnb
-3oKEQcDDX7Xdq3FH/H/r8j/d1RYV8UQ0Vb3jY93MoEUEJ6yeKqAakbiOQeHgVsNN
-bu7iUeaK4YkIazsS62n0dNDGhDFKrMBANMchrN6SRQIc/PtK04G1YJRKbD08X9AX
-f0Ve0aqdnGXon+1QYLvPIw5S4SP9GwlrOkvcKvpmeKcgt/NBQfXCBLN46z+GQcri
-sk8M/huzaWQW4byZDnElXsN03kPXhJdSDEIFbg==
-=Xnkp
+iD8DBQFD7ajpslRBHTHmtSsRAu7kAJ9WAJK6ijGFq8rNeASlFKZcss+S/wCgq2GG
+hQrzCNityOcb/3/tWOyMFoM=
+=T2Q3
 -----END PGP SIGNATURE-----

@@ -11,11 +11,9 @@ use vars qw( $VERSION @ISA );
 # our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 # our @EXPORT = qw();
 
-$VERSION = '0.14_03';
-$VERSION = eval $VERSION;
+$VERSION = '0.15';
 
 use Carp;
-use Storable qw( thaw freeze );
 
 sub new
 
@@ -31,13 +29,24 @@ sub new
     my $self = {
       KEYS   => [ ], # array of Regexp keys
       VALUES => [ ], # array of corresponding values
-      COUNT  => 0,   # the number of hash/key pairs (is this necessay?)
+      COUNT  => 0,   # the number of hash/key pairs (is this necessary?)
     };
 
     bless $self, $class;
   }
 
+sub _convert_key
 
+# Embed any modifiers used with qr// in the pattern.
+
+  {
+    my ($key) = shift;
+
+    my ($flags,$pat) = ($key =~ /^\(\?([ismx]{0,4})-[ismx]*:(.*)\)$/);
+    ($key = qr/(?$flags:$pat)/) if $flags;
+    return $key;
+  }
+    
 sub _find
 
 # Sequentially goes through the hash keys for Regexps which match the given
@@ -52,9 +61,10 @@ sub _find
 	return;
       }
 
-    if (ref($key) eq "Regexp")
+    if (ref($key) eq 'Regexp')
       {
 	my $i = 0;
+        $key = _convert_key($key); 
 	while  (($i < $self->{COUNT}) and ($key ne $self->{KEYS}->[ $i ])) {
 	    $i++;
 	  }
@@ -96,6 +106,8 @@ sub add
   {
     my ($self, $key, $value) = @_;
 
+    ($key = _convert_key($key)) if (ref($key) eq 'Regexp');
+
     my $index = _find $self, $key;
     if (defined($index))
       {
@@ -110,7 +122,7 @@ sub add
       {
 	$index = $self->{COUNT}++;
 
-	$key   = (ref($key) eq "Regexp") ? $key : qr/$key/;
+        ($key = qr/$key/) unless (ref($key) eq 'Regexp');
 
 	$self->{KEYS}->[ $index ]   = $key;
 	$self->{VALUES}->[ $index ] = $value;
@@ -154,6 +166,8 @@ sub remove
 
   {
     my ($self, $key) = @_;
+
+    ($key = _convert_key($key)) if (ref($key) eq 'Regexp');
 
     my $index = _find $self, $key;
 
@@ -273,7 +287,7 @@ sub STORABLE_freeze
       COUNT      => $self->{COUNT},
     };
 
-    return Storable::freeze($sref);
+    return (0,$sref);
   }
 
 sub STORABLE_thaw
@@ -281,9 +295,8 @@ sub STORABLE_thaw
 # deserialize
 
   {
-    my($self, $cloning, $serialized) = @_;
+    my($self, $cloning, $serialized, $sref) = @_;
 
-    my $sref = Storable::thaw($serialized);
     $self->{KEYS}   = [ ];
     $self->{VALUES} = $sref->{VALUES};
     $self->{COUNT}  = $sref->{COUNT};
@@ -313,9 +326,8 @@ L<Tie::RegexpHash> is written for and tested on Perl 5.6.0, but should
 run with Perl 5.005. (Because it uses Regexp variables it cannot run on
 earlier versions of Perl.)
 
-It uses the following (possibly non-core) modules:
-
-  Storable
+It uses only standard modules.  Serialization is supported through
+Storable, but Storable is not required for normal operation.
 
 =head2 Installation
 
@@ -366,7 +378,7 @@ This module allows one to use regular expressions for hash keys, so that
 values can be associated with anything that matches the key.
 
 Hashes can be operated on using the standard tied hash interface in Perl,
-or using an object-orineted interface described below.
+or using an object-oriented interface described below.
 
 =for readme stop
 
@@ -432,7 +444,7 @@ Removes all key/value pairs.
 
 A brief list of changes since the previous release:
 
-=for readme include file="Changes" start="0.14" stop="0.13" type="text"
+=for readme include file="Changes" start="0.15" stop="0.13" type="text"
 
 For a detailed history see the F<Changes> file included in this distribution.
 
@@ -444,9 +456,9 @@ Robert Rothenberg <rrwo at cpan.org>
 
 =for readme stop
 
-=head2 Acknowledgements
+=head2 Acknowledgments
 
-Russell Harrison <rc.harrison at gmail.com> for patches adding support
+Russell Harrison <rch at cpan.org> for patches adding support
 for serialization.
 
 Simon Hanmer <sch at scubaplus.co.uk> & Bart Vetters <robartes at nirya.eb>
@@ -457,6 +469,9 @@ for pointing out a bug in the logic of the _find() routine in v0.10
 =head1 LICENSE
 
 Copyright (c) 2001-2002, 2005-2006 Robert Rothenberg. All rights reserved.
+
+Portions Copyright (c) 2006 Russell Harrison. All rights reserved.
+
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 

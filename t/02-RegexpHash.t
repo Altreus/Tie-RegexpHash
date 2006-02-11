@@ -1,36 +1,45 @@
 #!/usr/bin/perl
 
-use Test::More tests => 12;
-use Storable qw( store freeze );
+use Test::More tests => 13;
+use Data::Dumper;
 
-use_ok("Tie::RegexpHash", 0.14);
-
+use_ok("Tie::RegexpHash", 0.14); 
 # Rudimentary test suite of the examples given in the
 # synopsis. Someday it will be oncorporated with POD::Tests.  Someday
 # I'll write a real test suite. Someday....
 
-my (%hash);
+SKIP: {
+    eval { require Storable };
 
-tie %hash, 'Tie::RegexpHash';
-ok(1);
+    skip "Storable not installed", 13 if $@;
 
-$hash{ qr/^5(\s+|-)?gal(\.|lons?)?/i } = '5-GAL';
-ok(1);
+    my (%hash);
 
-my $serialized = Storable::freeze(\%hash);
-ok(1, 'freeze');
+    tie %hash, 'Tie::RegexpHash';
+    ok(1);
 
-%hash = %{ Storable::thaw($serialized) };
-ok(1, 'thaw');
+    $hash{ qr/^5(\s+|-)?gal(\.|lons?)?/i } = '5-GAL';
+    ok(1);
 
-ok($hash{'5 gal'} eq "5-GAL");
-ok($hash{'5GAL'}  eq "5-GAL");
-ok($hash{'5  gallon'} eq "5-GAL");
+    my $serialized = Storable::freeze(\%hash);
+    ok(1, 'freeze');
 
-# In case clone semantics change in a future revision... 
-$href = Storable::dclone \%hash;
-ok(1, 'dclone');
+    %hash = %{ Storable::thaw($serialized) };
+    ok(1, 'thaw');
 
-ok($href->{'5 gal'} eq "5-GAL");
-ok($href->{'5GAL'} eq "5-GAL");
-ok($href->{'5 gallon'} eq "5-GAL");
+    ok($hash{'5 gal'} eq "5-GAL");
+    ok($hash{'5GAL'}  eq "5-GAL");
+    ok($hash{'5  gallon'} eq "5-GAL");
+
+    # In case clone semantics change in a future revision... 
+    $href = Storable::dclone( \%hash );
+    ok(1, 'dclone');
+
+    ok($href->{'5 gal'} eq "5-GAL");
+    ok($href->{'5GAL'} eq "5-GAL");
+    ok($href->{'5 gallon'} eq "5-GAL");
+
+    $hash{ qr/^pattern$/i } = 'val1';
+    $hash{ qr/(?i:^pattern$)/ } = 'val2';
+    ok($hash{pAttErn} eq 'val2');
+}

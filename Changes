@@ -1,5 +1,11 @@
 Revision history for Perl extension Tie::RegexpHash.
 
+0.15    11 Feb 2006
+	- updated notes on Storable use in documentation
+	- support serialization with Storable, but do not require
+	  Storable
+	- skip serialization tests if Storable is not available
+
 0.14_03 10 Feb 2006
 	- noted use of Storable in documentation
 	- fix for MANIFEST
