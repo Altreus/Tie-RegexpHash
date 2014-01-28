@@ -2,9 +2,9 @@ NAME
     Tie::RegexpHash - Use regular expressions as hash keys
 
 REQUIREMENTS
-    Tie::RegexpHash is written for and tested on Perl 5.6.0, but should run
-    with Perl 5.005. (Because it uses Regexp variables it cannot run on
-    earlier versions of Perl.)
+    Tie::RegexpHash is written for Perl 5.6.0, and tests pass on Perl 5.5.4.
+    (Because it uses Regexp variables it cannot run on earlier versions of
+    Perl.)
 
     It uses only standard modules. Serialization is supported through
     Storable, but Storable is not required for normal operation.
