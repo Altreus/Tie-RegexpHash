@@ -11,9 +11,18 @@ use vars qw( $VERSION @ISA );
 # our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 # our @EXPORT = qw();
 
-$VERSION = '0.15';
+$VERSION = '0.16';
 
 use Carp;
+use Data::Dumper;
+
+# This is what stringified qrs seem to look like.
+# It captures flags in $1 and pattern in $2
+my $SERIALIZE_RE = qr/^\(\?\^([ismx]{0,4}(?:-[ismx]{1,4})?):(.*)\)$/;
+
+# This is what the serialized version looks like.
+# It also captures flags in $1 and pattern in $2
+my $DESERIALIZE_RE = qr/^([ismx]{0,4}):(.*)$/;
 
 sub new
 
@@ -42,7 +51,7 @@ sub _convert_key
   {
     my ($key) = shift;
 
-    my ($flags,$pat) = ($key =~ /^\(\?([ismx]{0,4})-[ismx]*:(.*)\)$/);
+    my ($flags,$pat) = ($key =~ $SERIALIZE_RE);
     ($key = qr/(?$flags:$pat)/) if $flags;
     return $key;
   }
@@ -278,9 +287,9 @@ sub STORABLE_freeze
     {
       local *_;
       @keystrings = map { join(':',
-          ($_ =~ /^\(\?([ismx]{0,4})-[ismx]*:(.*)\)$/)); } @{$self->{KEYS}};
+          ($_ =~ $SERIALIZE_RE)); } @{$self->{KEYS}};
     }
-
+    
     my $sref = {
       KEYSTRINGS => \@keystrings,
       VALUES     => $self->{VALUES},
@@ -304,7 +313,7 @@ sub STORABLE_thaw
     {
       local *_;
       @{$self->{KEYS}} = map {
-           my ($flags,$pat) = ($_ =~ /^([ismx]{0,4}):(.*)$/);
+           my ($flags,$pat) = ($_ =~ $DESERIALIZE_RE);
            $pat = ($flags) ? "(?$flags:$pat)" : $pat;
            qr/$pat/;
       } @{$sref->{KEYSTRINGS}};
