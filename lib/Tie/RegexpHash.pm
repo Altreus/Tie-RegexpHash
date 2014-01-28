@@ -18,7 +18,14 @@ use Data::Dumper;
 
 # This is what stringified qrs seem to look like.
 # It captures flags in $1 and pattern in $2
-my $SERIALIZE_RE = qr/^\(\?\^([ismx]{0,4}(?:-[ismx]{1,4})?):(.*)\)$/;
+my $SERIALIZE_RE;
+
+if ($] < 5.13.6) {
+    $SERIALIZE_RE = qr/^\(\?([ismx]{0,4})-[ismx]*:(.*)\)$/;
+}
+else {
+    $SERIALIZE_RE = qr/^\(\?\^([ismx]{0,4}(?:-[ismx]{1,4})?):(.*)\)$/;
+}
 
 # This is what the serialized version looks like.
 # It also captures flags in $1 and pattern in $2
