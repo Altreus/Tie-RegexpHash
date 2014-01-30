@@ -1,5 +1,7 @@
 Revision history for Perl extension Tie::RegexpHash.
 
+        - Removed SIGANTURE and Build.PL from distribution [RR]
+
 0.15    11 Feb 2006
 	- updated notes on Storable use in documentation
 	- support serialization with Storable, but do not require
