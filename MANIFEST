@@ -1,4 +1,3 @@
-Build.PL
 Changes
 lib/Tie/RegexpHash.pm
 MANIFEST			This list of files
@@ -7,4 +6,4 @@ t/01-RegexpHash.t
 t/02-RegexpHash.t
 Makefile.PL
 README
-SIGNATURE    Added here by Module::Build
+
