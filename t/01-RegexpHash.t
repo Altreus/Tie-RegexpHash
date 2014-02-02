@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-use Test::More tests => 6;
+use Test::More tests => 7;
 
 use_ok("Tie::RegexpHash", 0.14);
 
@@ -19,3 +19,6 @@ ok(1);
 ok($hash{'5 gal'} eq "5-GAL");
 ok($hash{'5GAL'}  eq "5-GAL");
 ok($hash{'5  gallon'} eq "5-GAL");
+
+$hash{'10 GALLON'} = '10-GAL';
+ok($hash{'10 GALLON'} eq '10-GAL');
