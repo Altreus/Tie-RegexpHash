@@ -5,12 +5,6 @@ use strict;
 
 use vars qw( $VERSION @ISA );
 
-@ISA = qw( );
-
-# our %EXPORT_TAGS = ( 'all' => [ qw( ) ] );
-# our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
-# our @EXPORT = qw();
-
 $VERSION = '0.16';
 
 use Carp;
@@ -31,15 +25,12 @@ else {
 # It also captures flags in $1 and pattern in $2
 my $DESERIALIZE_RE = qr/^([ismx]{0,4}):(.*)$/;
 
-sub new
-
 # Creates a new 'Tie::RegexpHash' object. We use an underlying array rather
 # than a hash because we want to search through the hash keys in the order
 # that they were added.
 #
 # See the _find() and add() routines for more details.
-
-  {
+sub new {
     my ($class) = @_;
 
     my $self = {
@@ -49,182 +40,141 @@ sub new
     };
 
     bless $self, $class;
-  }
-
-sub _convert_key
+}
 
 # Embed any modifiers used with qr// in the pattern.
-
-  {
+sub _convert_key {
     my ($key) = shift;
 
     my ($flags,$pat) = ($key =~ $SERIALIZE_RE);
     ($key = qr/(?$flags:$pat)/) if $flags;
     return $key;
-  }
+}
     
-sub _find
-
 # Sequentially goes through the hash keys for Regexps which match the given
 # key and returns the index. If the hash is empty, or a matching key was not
 # found, returns undef.
-
-  {
+sub _find {
     my ($self, $key) = @_;
 
-    unless ($self->{COUNT})
-      {
-	return;
-      }
+    unless ($self->{COUNT}) {
+        return;
+    }
 
-    if (ref($key) eq 'Regexp')
-      {
-	my $i = 0;
+    if (ref($key) eq 'Regexp') {
+        my $i = 0;
         $key = _convert_key($key); 
-	while  (($i < $self->{COUNT}) and ($key ne $self->{KEYS}->[ $i ])) {
-	    $i++;
-	  }
+        while (($i < $self->{COUNT}) and ($key ne $self->{KEYS}->[ $i ])) {
+            $i++;
+        }
 
-	if ($i == $self->{COUNT})
-	  {
-	    return;
-	  }
-	else
-	  {
-	    return $i;
-	  }
+        if ($i == $self->{COUNT}) {
+            return;
+        }
+        else {
+            return $i;
+        }
+    }
+    else {
+        my $i = 0;
+        while (($i < $self->{COUNT}) and ($key !~ m/$self->{KEYS}->[ $i ]/)) {
+            $i++;
+        }
 
-      }
-    else
-      {
-	my $i = 0;
-	while  (($i < $self->{COUNT}) and ($key !~ m/$self->{KEYS}->[ $i ]/)) {
-	  $i++;
-	}
-
-	if ($i == $self->{COUNT})
-	  {
-	    return;
-	  }
-	else
-	  {
-	    return $i;
-	  }
-      }
-  }
-
-sub add
+        if ($i == $self->{COUNT}) {
+            return;
+        }
+        else {
+            return $i;
+        }
+    }
+}
 
 # If a key exists the value will be replaced. (If the Regexps are not the same
 # but match, a warning is displayed.) If the key is new, then a new key/value
 # pair is added.
-
-  {
+sub add {
     my ($self, $key, $value) = @_;
 
     ($key = _convert_key($key)) if (ref($key) eq 'Regexp');
 
     my $index = _find $self, $key;
-    if (defined($index))
-      {
-	if ($key ne $self->{KEYS}->[ $index ])
-	  {
-		carp "\'$key\' is not the same as \'",
-		  $self->{KEYS}->[$index], "\'";
-	  }
-	$self->{VALUES}->[ $index ] = $value;
-      }
-    else
-      {
-	$index = $self->{COUNT}++;
+    if (defined($index)) {
+        if ($key ne $self->{KEYS}->[ $index ]) {
+            carp "\'$key\' is not the same as \'",
+                  $self->{KEYS}->[$index], "\'";
+        }
+        $self->{VALUES}->[ $index ] = $value;
+    }
+    else {
+        $index = $self->{COUNT}++;
 
         ($key = qr/$key/) unless (ref($key) eq 'Regexp');
 
-	$self->{KEYS}->[ $index ]   = $key;
-	$self->{VALUES}->[ $index ] = $value;
-      }
+        $self->{KEYS}->[ $index ]   = $key;
+        $self->{VALUES}->[ $index ] = $value;
+    }
+}
 
-  }
-
-
-sub match_exists
 
 # Does a key exist or does it match any Regexp keys?
-
-  {
+sub match_exists {
     my ($self, $key) = @_;
     return defined( _find $self, $key );
-  }
-
-sub match
+}
 
 # Returns the value of a key or any matches to Regexp keys.
-
-  {
+sub match {
     my ($self, $key) = @_;
 
     my $index = _find $self, $key;
 
-    if (defined($index))
-      {
-	return $self->{VALUES}->[ $index ];
-      }
-    else
-      {
-	return;
-      }
-  }
-
-sub remove
+    if (defined($index)) {
+        return $self->{VALUES}->[ $index ];
+    }
+    else {
+        return;
+    }
+}
 
 # Removes a key or Regexp key and associated value from the hash. If the key
 # is not the same as the Regexp, a warning is displayed.
-
-  {
+sub remove {
     my ($self, $key) = @_;
 
     ($key = _convert_key($key)) if (ref($key) eq 'Regexp');
 
     my $index = _find $self, $key;
 
-    if (defined($index))
-      {
+    if (defined($index)) {
+        if ($key ne $self->{KEYS}->[ $index ]) {
+            carp "'`$key\' is not the same as '`",
+              $self->{KEYS}->[$index], "\'";
+        }
 
-	if ($key ne $self->{KEYS}->[ $index ])
-	  {
-		carp "'`$key\' is not the same as '`",
-		  $self->{KEYS}->[$index], "\'";
-	  }
-
-	my $value = $self->{VALUES}->[ $index ];
-	splice @{ $self->{KEYS} },   $index, 1;
-	splice @{ $self->{VALUES} }, $index, 1;
-	$self->{COUNT}--;
-	return $value;
-      }
-    else
-      {
-	   	carp "Cannot delete a nonexistent key: \`$key\'";
-	return;
-      }
-
-  }
-
-sub clear
+        my $value = $self->{VALUES}->[ $index ];
+        splice @{ $self->{KEYS} },   $index, 1;
+        splice @{ $self->{VALUES} }, $index, 1;
+        $self->{COUNT}--;
+        return $value;
+    }
+    else {
+        carp "Cannot delete a nonexistent key: \`$key\'";
+        return;
+    }
+}
 
 # Clears the hash.
-
-  {
+sub clear {
     my ($self) = @_;
 
     $self->{KEYS}   = [ ];
     $self->{VALUES} = [ ];
     $self->{COUNT}  = 0;
 
-  }
+}
 
-BEGIN
-  {
+BEGIN {
     # make aliases...
     no strict;
     *TIEHASH = \ &new;
@@ -233,84 +183,66 @@ BEGIN
     *FETCH   = \ &match;
     *DELETE  = \ &remove;
     *CLEAR   = \ &clear;
-  }
-
-sub FIRSTKEY
+}
 
 # Returns the first key
-
-  {
+sub FIRSTKEY {
     my ($self) = @_;
 
-    unless ($self->{COUNT})
-      {
-	return;
-      }
+    unless ($self->{COUNT}) {
+        return;
+    }
 
     return $self->{KEYS}->[0];
 
-  }
-
-sub NEXTKEY
+}
 
 # Returns the next key
-
-  {
+sub NEXTKEY {
     my ($self, $lastkey) = @_;
 
-    unless ($self->{COUNT})
-      {
-	return;
-      }
+    unless ($self->{COUNT}) {
+        return;
+    }
 
     my $index = _find $self, $lastkey;
 
-    unless (defined($index))
-      {
-	confess "Invalid \$lastkey";
-      }
+    unless (defined($index)) {
+        confess "Invalid \$lastkey";
+    }
 
     $index++;
 
-    if ($index == $self->{COUNT})
-      {
-	return;
-      }
-    else
-      {
-	return $self->{KEYS}->[ $index ];
-      }
-
-  }
-
-sub STORABLE_freeze
+    if ($index == $self->{COUNT}) {
+        return;
+    }
+    else {
+        return $self->{KEYS}->[ $index ];
+    }
+}
 
 # serialize object
-
-  {
+sub STORABLE_freeze {
     my ($self, $cloning) = @_;
 
     my @keystrings;
+
     {
-      local *_;
-      @keystrings = map { join(':',
-          ($_ =~ $SERIALIZE_RE)); } @{$self->{KEYS}};
+        local *_;
+        @keystrings = map { join(':', ($_ =~ $SERIALIZE_RE)); } @{$self->{KEYS}};
     }
     
     my $sref = {
-      KEYSTRINGS => \@keystrings,
-      VALUES     => $self->{VALUES},
-      COUNT      => $self->{COUNT},
+        KEYSTRINGS => \@keystrings,
+        VALUES     => $self->{VALUES},
+        COUNT      => $self->{COUNT},
     };
 
     return (0,$sref);
-  }
-
-sub STORABLE_thaw
+}
 
 # deserialize
-
-  {
+sub STORABLE_thaw {
     my($self, $cloning, $serialized, $sref) = @_;
 
     $self->{KEYS}   = [ ];
@@ -318,14 +250,14 @@ sub STORABLE_thaw
     $self->{COUNT}  = $sref->{COUNT};
 
     {
-      local *_;
-      @{$self->{KEYS}} = map {
-           my ($flags,$pat) = ($_ =~ $DESERIALIZE_RE);
-           $pat = ($flags) ? "(?$flags:$pat)" : $pat;
-           qr/$pat/;
-      } @{$sref->{KEYSTRINGS}};
+        local *_;
+        @{$self->{KEYS}} = map {
+             my ($flags,$pat) = ($_ =~ $DESERIALIZE_RE);
+             $pat = ($flags) ? "(?$flags:$pat)" : $pat;
+             qr/$pat/;
+        } @{$sref->{KEYSTRINGS}};
     }
-  }
+}
 
 1;
 __END__
