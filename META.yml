@@ -2,7 +2,7 @@
 name: Tie-RegexpHash
 version: 0.17
 author:
-  - 'Robert Rothenberg <rrwo at cpan.org>'
+  - 'Alastair McGowan-Douglas <altreus@cpan.org>'
 abstract: Use regular expressions as hash keys
 license: perl
 resources:

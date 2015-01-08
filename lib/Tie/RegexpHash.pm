@@ -271,17 +271,17 @@ Tie::RegexpHash - Use regular expressions as hash keys
 
 =head1 REQUIREMENTS
 
-L<Tie::RegexpHash> is written for and tested on Perl 5.6.0, but should
-run with Perl 5.005. (Because it uses Regexp variables it cannot run on
-earlier versions of Perl.)
+L<Tie::RegexpHash> is written for and tested on Perl 5.14.0, but should run as
+far back as Perl 5.005. (Because it uses Regexp C<qr//> variables it cannot run
+on earlier versions of Perl.)
 
-It uses only standard modules.  Serialization is supported through
-Storable, but Storable is not required for normal operation.
+It uses only standard modules. Serialization is supported through Storable, but
+Storable is not required for normal operation.
 
 =head2 Installation
 
-Installation can be done using the traditional Makefile.PL or the newer
-Build.PL methods.
+Installation can be done using the traditional Makefile.PL or the newer Build.PL
+methods.
 
 Using Makefile.PL:
 
@@ -326,8 +326,8 @@ Using Build.PL (if you have Module::Build installed):
 This module allows one to use regular expressions for hash keys, so that
 values can be associated with anything that matches the key.
 
-Hashes can be operated on using the standard tied hash interface in Perl,
-or using an object-oriented interface described below.
+Hashes can be operated on using the standard tied hash interface in Perl, as
+described in the SYNOPSIS, or using an object-oriented interface described below.
 
 =for readme stop
 
@@ -393,7 +393,7 @@ Removes all key/value pairs.
 
 A brief list of changes since the previous release:
 
-=for readme include file="Changes" start="0.15" stop="0.13" type="text"
+=for readme include file="Changes" start="0.17" stop="0.14" type="text"
 
 For a detailed history see the F<Changes> file included in this distribution.
 
@@ -401,7 +401,11 @@ For a detailed history see the F<Changes> file included in this distribution.
 
 =head1 AUTHOR
 
-Robert Rothenberg <rrwo at cpan.org>
+Robert Rothenberg <rrwo at cpan.org>, previous maintainer.
+
+=head1 MAINTAINER
+
+Alastair McGowan-Douglas <altreus@cpan.org>
 
 =for readme stop
 
@@ -415,19 +419,29 @@ for pointing out a bug in the logic of the _find() routine in v0.10
 
 =for readme continue
 
+=head1 BUGS
+
+Please report bugs on the
+L<github issues tracker|https://github.com/Altreus/Tie-RegexpHash/issues>.
+Request Tracker tickets will probably go unseen.
+
 =head1 LICENSE
+
 
 Copyright (c) 2001-2002, 2005-2006 Robert Rothenberg. All rights reserved.
 
+Portions Copyright (c) 2014-2015 Alastair McGowan-Douglas.
+
 Portions Copyright (c) 2006 Russell Harrison. All rights reserved.
 
-This program is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
+This program is free software. You can redistribute it under the terms of the
+L<Artistic Licence|http://dev.perl.org/licenses/artistic.html>.
 
 =head1 SEE ALSO
 
-L<Tie::Hash::Regex> is a module with a complimentary function. Rather than
-a hash with Regexps as keys that match against fetches, it has standard keys that are matched by Regexps in fetches.
+L<Tie::Hash::Regex> is a module with a complementary function. Rather than
+a hash with Regexps as keys that match against fetches, it has standard keys
+that are matched by Regexps in fetches.
 
 L<Regexp::Match::Any> matches many Regexps against a variable.
 
