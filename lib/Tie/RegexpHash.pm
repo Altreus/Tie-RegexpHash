@@ -5,7 +5,7 @@ use strict;
 
 use vars qw( $VERSION @ISA );
 
-$VERSION = '0.16';
+$VERSION = '0.17';
 
 use Carp;
 use Data::Dumper;
@@ -14,7 +14,8 @@ use Data::Dumper;
 # It captures flags in $1 and pattern in $2
 my $SERIALIZE_RE;
 
-if ($] < 5.13.6) {
+# To try to keep this working as far back as 5.5 we're using $]
+if ($] < 5.013_006) {
     $SERIALIZE_RE = qr/^\(\?([ismx]{0,4})-[ismx]*:(.*)\)$/;
 }
 else {

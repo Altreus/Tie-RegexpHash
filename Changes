@@ -1,5 +1,10 @@
 Revision history for Perl extension Tie::RegexpHash.
 
+0.17
+
+  - Fix the serialisation procedures following changes to the 
+    stringification of Regex "refs" in 5.14
+
 0.16
 
   - Reformatted Changes file to CPAN::Changes::Spec (Robert
